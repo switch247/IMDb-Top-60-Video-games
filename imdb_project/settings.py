@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "rest_framework",
 
     "games.apps.GamesConfig",
+    "accounts.apps.AccountsConfig",
 ]
 
 REST_FRAMEWORK = {
@@ -139,3 +140,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+AUTH_USER_MODEL = "accounts.IMDbUser"
