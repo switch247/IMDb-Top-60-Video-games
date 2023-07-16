@@ -5,9 +5,9 @@ from .models import IMDbUser
 class IMDbUserCreationForm(UserCreationForm, UserChangeForm):
     class Meta(UserCreationForm):
         model = IMDbUser
-        fields = ("nickname", "user_id", "my_rating","bio", "cover", "my_review",) + UserCreationForm.Meta.fields
+        fields = ("nickname", "user_id","bio", "cover") + UserCreationForm.Meta.fields
 
 class IMDbUserChangeForm(UserChangeForm):
     class Meta:
         model = IMDbUser
-        fields = ("nickname", "user_id", "my_rating","bio", "cover", "my_review",) + UserCreationForm.Meta.fields
+        fields = ("nickname", "user_id","bio", "cover",) + UserCreationForm.Meta.fields

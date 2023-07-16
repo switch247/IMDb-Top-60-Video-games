@@ -15,10 +15,9 @@ class IMDbUserAdmin(UserAdmin):
             "bio",
             "user_id",
             "cover",
-            "my_watchlist",
             ]
-    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("nickname", "user_id", "my_rating","bio", "cover", "my_review",)}),)
-    addfieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("nickname", "user_id", "my_rating","bio", "cover", "my_review",)}),)
+    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("nickname", "user_id", "bio", "cover" ,)}),)
+    addfieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("nickname", "user_id","bio", "cover",)}),)
 
 
 admin.site.register(IMDbUser, IMDbUserAdmin)

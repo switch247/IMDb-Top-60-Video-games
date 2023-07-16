@@ -60,11 +60,11 @@ class Review(models.Model):
     def __str__(self):
         return self.review
 
-class MyRating(models.Model):
+class Rating(models.Model):
     game = models.ForeignKey(
             VideoGame,
             on_delete=models.CASCADE,
-            related_name="my_ratings",
+            related_name="ratings",
             null=True,
             default=None,
     )
@@ -79,11 +79,11 @@ class MyRating(models.Model):
     def __str__(self):
         return self.my_rating
 
-class MyWatchList(models.Model):
+class WatchList(models.Model):
     game = models.ForeignKey(
         VideoGame,
         on_delete=models.CASCADE,
-        related_name="my_watchlists",
+        related_name="watchlists",
         null=True,
         default=None,
     )
