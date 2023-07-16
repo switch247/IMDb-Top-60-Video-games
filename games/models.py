@@ -60,6 +60,27 @@ class Review(models.Model):
     def __str__(self):
         return self.review
 
+class My_rating(models.Model):
+    game = models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="reviews",
+            null=True,
+            default=None,
+    )
+    user = models.ForeignKey(
+            get_user_model(),
+            on_delete=models.CASCADE,
+            null=True,
+            default=None,
+    )
+    RATING_CHOICES = [(i, str(i)) for i in range(1, 11)]
+    my_rating = models.PositiveIntegerField(null=True, blank=True, choices=RATING_CHOICES)
+    def __str__(self):
+        return self.my_rating
+
+
+
 class Video(models.Model):
     game = models.ForeignKey(
             VideoGame,
