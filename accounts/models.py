@@ -6,6 +6,10 @@ import uuid
 
 # Create your models here.
 class IMDbUser(AbstractUser):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False)
     nickname = models.CharField(null=True, blank=True, max_length=30)
     user_id = models.CharField(null=True, blank=True, max_length=20)
     bio = models.CharField(null=True, blank=True, max_length=300)
