@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from games.models import VideoGame
 from django.core.validators import MinValueValidator, MaxValueValidator
+import uuid
 
 # Create your models here.
 class IMDbUser(AbstractUser):
