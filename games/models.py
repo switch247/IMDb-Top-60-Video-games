@@ -4,27 +4,10 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 # Create your models here.
-class Director(models.Model):
-    pass
-
-class Writer(models.Model):
-    pass
 
 class Cast(models.Model):
     pass
-
 class Relation(models.Model):
-    pass
-class Trivia(models.Model):
-    pass
-class ParentsGuide(models.Model):
-    pass
-class Goof(models.Model):
-    pass
-class Quote(models.Model):
-    pass
-
-class FrequentlyAskedQuestion(models.Model):
     pass
 
 class VideoGame(models.Model):
@@ -76,6 +59,7 @@ class Review(models.Model):
     review = models.CharField(max_length=1000, null=True, default=None)
     def __str__(self):
         return self.review
+
 class Video(models.Model):
     game = models.ForeignKey(
             VideoGame,
@@ -89,5 +73,79 @@ class Video(models.Model):
     def __str__(self):
         return f"{self.game.title} videos"
 
-class Photo:
-    pass
+class Photo(models.Model):
+    game = models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="photos",
+            null=True,
+            default=None,
+    )
+
+    photo = models.FileField(upload_to="photos/", null=True, default=None)
+    def __str__(self):
+        return f"{self.game.title} photos"
+
+class Trivia(models.Model):
+    game = models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="trivias",
+            null=True,
+            default=None,
+    )
+    trivia = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.trivia
+
+class Goof(models.Model):
+    game = models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="goofs",
+            null=True,
+            default=None,
+    )
+    goof = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.goof
+class Quote(models.Model):
+    game = models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="quotes",
+            null=True,
+            default=None,
+    )
+    quote = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.quote
+
+class FrequentlyAskedQuestion(models.Model):
+    game = models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="faqs",
+            null=True,
+            default=None,
+    )
+    faq = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.faq
+
+class ParentsGuide(models.Model):
+    game = models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="parentalguides",
+            null=True,
+            default=None,
+    )
+    certification = models.CharField(max_length=1000, null=True, default=None)
+    nudity = models.CharField(max_length=1000, null=True, default=None)
+    violence = models.CharField(max_length=1000, null=True, default=None)
+    profanity = models.CharField(max_length=1000, null=True, default=None)
+    drugs = models.CharField(max_length=1000, null=True, default=None)
+    intense_scene = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.certification
