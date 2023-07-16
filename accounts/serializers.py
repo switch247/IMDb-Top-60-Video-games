@@ -20,3 +20,8 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'
+
+class AccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IMDbUser
+        fields = ("cover", "username", "user_id", "bio", "nickname",)

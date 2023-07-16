@@ -4,7 +4,6 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import IMDbUserCreationForm, IMDbUserChangeForm
 from .models import IMDbUser
 from games.models import Review, WatchList, Rating
-import uuid
 
 # Register your models here.
 
@@ -25,6 +24,7 @@ class IMDbUserAdmin(UserAdmin):
             "username",
             "email",
             "bio",
+            "id",
             "user_id",
             "cover",
     ]
