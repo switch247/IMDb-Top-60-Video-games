@@ -5,13 +5,10 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class IMDbUser(AbstractUser):
-    name = models.CharField(null=True, blank=True, max_length=30)
+    nickname = models.CharField(null=True, blank=True, max_length=30)
     user_id = models.CharField(null=True, blank=True, max_length=20)
-    my_rating = models.PositiveIntegerField(null=True, blank=True, validators=[
-            MinValueValidator(1),
-            MaxValueValidator(10),
-            ]
-    )
+    RATING_CHOICES = [(i, str(i)) for i in range(1, 11)]
+    my_rating = models.PositiveIntegerField(null=True, blank=True, choices=RATING_CHOICES)
     bio = models.CharField(null=True, blank=True, max_length=300)
     cover = models.ImageField(upload_to="profile/", default=None, null=True, blank=True)
     my_review = models.ForeignKey(
