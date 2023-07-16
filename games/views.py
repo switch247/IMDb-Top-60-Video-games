@@ -9,7 +9,7 @@ class GameList(generics.ListAPIView):
     queryset = VideoGame.objects.all()
     serializer_class = GameListSerializer
 
-class GameDetail(generics.ListAPIView):
+class GameDetail(generics.RetrieveAPIView):
     queryset = VideoGame.objects.all()
     serializer_class = GameDetailSerializer
 

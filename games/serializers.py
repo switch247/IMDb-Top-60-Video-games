@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import VideoGame
+from .models import VideoGame, Video
 
 class GameListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,8 +12,13 @@ class GameListSerializer(serializers.ModelSerializer):
                 "certificate",
         )
         model = VideoGame
-class GameDetailSerializer(serializers.ModelSerializer):
+class VideoSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = '__all__'
-        model = VideoGame
+        model = Video
+        fields = ('video',)
 
+class GameDetailSerializer(serializers.ModelSerializer):
+    videos = VideoSerializer(many=True, read_only=True)
+    class Meta:
+        model = VideoGame
+        fields = '__all__'

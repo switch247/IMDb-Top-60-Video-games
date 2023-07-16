@@ -85,7 +85,7 @@ class Video(models.Model):
             default=None,
     )
 
-    review = models.FileField(upload_to="videos/", null=True, default=None)
+    video = models.FileField(upload_to="videos/", null=True, default=None)
     def __str__(self):
         return f"{self.game.title} videos"
 
