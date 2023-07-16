@@ -46,7 +46,6 @@ class VideoGame(models.Model):
     language = models.CharField(max_length=300, default=None, null=True)
     company = models.CharField(max_length=300, default=None, null=True)
     box_office = models.CharField(max_length=300, default=None, null=True)
-    runtime = models.TimeField(auto_now=False, default=None, null=True)
     color = models.CharField(max_length=300, default=None, null=True)
     soundmix = models.CharField(max_length=300, default=None, null=True)
     nickname = models.CharField(max_length=300, default=None, null=True)
@@ -77,7 +76,18 @@ class Review(models.Model):
     review = models.CharField(max_length=1000, null=True, default=None)
     def __str__(self):
         return self.review
-class Video:
-    pass
+class Video(models.Model):
+    game = models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="videos",
+            null=True,
+            default=None,
+    )
+
+    review = models.FileField(upload_to="videos/", null=True, default=None)
+    def __str__(self):
+        return f"{self.game.title} videos"
+
 class Photo:
     pass
