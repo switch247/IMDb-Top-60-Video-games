@@ -11,13 +11,7 @@ class IMDbUser(AbstractUser):
     my_rating = models.PositiveIntegerField(null=True, blank=True, choices=RATING_CHOICES)
     bio = models.CharField(null=True, blank=True, max_length=300)
     cover = models.ImageField(upload_to="profile/", default=None, null=True, blank=True)
-    my_review = models.ForeignKey(
-            VideoGame,
-            on_delete=models.CASCADE,
-            related_name="reviews",
-            null=True,
-            default=None,
-    )
+    my_review = models.CharField(null=True, blank=True, max_length=300)
     my_watchlist = models.ForeignKey(
             VideoGame,
             on_delete=models.CASCADE,

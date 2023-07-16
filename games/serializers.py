@@ -9,7 +9,7 @@ class GameListSerializer(serializers.ModelSerializer):
                 "cover",
                 "release_date",
                 "imdb_rating",
-                "parents_guide",
+                "certificate",
         )
         model = VideoGame
 class GameDetailSerializer(serializers.ModelSerializer):
