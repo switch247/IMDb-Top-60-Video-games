@@ -1,11 +1,16 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import VideoGame, Review, Video, Photo, Trivia, Goof, Quote, FrequentlyAskedQuestion, ParentsGuide
+from .models import VideoGame, Review, Video, Photo, Trivia, Goof, Quote, FrequentlyAskedQuestion, ParentsGuide, Rating, WatchList
+
+class WatchListInLine(admin.TabularInline):
+    model = WatchList
+
+class RatingInLine(admin.TabularInline):
+    model = Rating
 
 class ReviewInLine(admin.TabularInline):
     model = Review
-
 
 class PhotoInLine(admin.TabularInline):
     model = Photo
@@ -30,7 +35,7 @@ class VideoInLine(admin.StackedInline):
 
 class GameAdmin(admin.ModelAdmin):
     inlines = [
-            ReviewInLine, VideoInLine, ParentsGuideInLine, FAQInLine, QuoteInLine, GoofInLine, TriviaInLine, PhotoInLine
+            ReviewInLine, VideoInLine, ParentsGuideInLine, FAQInLine, QuoteInLine, GoofInLine, TriviaInLine, PhotoInLine, WatchListInLine, RatingInLine
     ]
     list_display = ("title", "cover","certificate", "release_date",)
 

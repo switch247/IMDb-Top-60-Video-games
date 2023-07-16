@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     
     "rest_framework",
+    "corsheaders",
     "rest_framework.authtoken",
     "allauth",
     "allauth.account",
@@ -73,9 +74,10 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-        "http://localhost:3000",
-        "http://localhost:8000",
+"http://localhost:3000",
+"http://localhost:8000",
 )
+
 CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
 ROOT_URLCONF = "imdb_project.urls"
@@ -97,15 +99,9 @@ TEMPLATES = [
     },
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-DEFAULT_FROM_EMAIL = "ezrayeneneh2000@gmail.com"
-EMAIL_HOST = "smtp.sendgrid.net"
-EMAIL_HOST_USER = "apikey"
-EMAIL_HOST_PASSWORD = "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"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-SITE_ID = 1
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+SITE_ID = 1
 WSGI_APPLICATION = "imdb_project.wsgi.application"
 
 
