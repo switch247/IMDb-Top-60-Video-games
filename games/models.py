@@ -60,11 +60,11 @@ class Review(models.Model):
     def __str__(self):
         return self.review
 
-class My_rating(models.Model):
+class MyRating(models.Model):
     game = models.ForeignKey(
             VideoGame,
             on_delete=models.CASCADE,
-            related_name="reviews",
+            related_name="my_ratings",
             null=True,
             default=None,
     )
@@ -79,7 +79,24 @@ class My_rating(models.Model):
     def __str__(self):
         return self.my_rating
 
+class MyWatchList(models.Model):
+    game = models.ForeignKey(
+        VideoGame,
+        on_delete=models.CASCADE,
+        related_name="my_watchlists",
+        null=True,
+        default=None,
+    )
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        null=True,
+        default=None,
+    )
+    is_watched = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"{self.user.username} - {self.game.title}"
 
 class Video(models.Model):
     game = models.ForeignKey(
@@ -169,4 +186,4 @@ class ParentsGuide(models.Model):
     drugs = models.CharField(max_length=1000, null=True, default=None)
     intense_scene = models.CharField(max_length=1000, null=True, default=None)
     def __str__(self):
-        return self.certification
+        return
