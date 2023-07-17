@@ -75,9 +75,9 @@ class Rating(models.Model):
             default=None,
     )
     RATING_CHOICES = [(i, str(i)) for i in range(1, 11)]
-    my_rating = models.PositiveIntegerField(null=True, blank=True, choices=RATING_CHOICES)
+    your_rating = models.PositiveIntegerField(null=True, blank=True, choices=RATING_CHOICES)
     def __str__(self):
-        return self.my_rating
+        return str(self.your_rating)
 
 class WatchList(models.Model):
     game = models.ForeignKey(
@@ -93,10 +93,10 @@ class WatchList(models.Model):
         null=True,
         default=None,
     )
-    is_watched = models.BooleanField(default=False)
+    your_watchlist = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user.username} - {self.game.title}"
+        return f"{self.user.username} - {self.game.title} your - {self.your_watchlist} watchlist"
 
 class Video(models.Model):
     game = models.ForeignKey(
@@ -186,4 +186,16 @@ class ParentsGuide(models.Model):
     drugs = models.CharField(max_length=1000, null=True, default=None)
     intense_scene = models.CharField(max_length=1000, null=True, default=None)
     def __str__(self):
-        return
+        return self.certification
+
+class Help(models.Model):
+    general_information = models.CharField(max_length=1000, null=True, default=None)
+    track_games = models.CharField(max_length=1000, null=True, default=None)
+    discover = models.CharField(max_length=1000, null=True, default=None)
+    featured_content = models.CharField(max_length=1000, null=True, default=None)
+    common_issues = models.CharField(max_length=1000, null=True, default=None)
+    special_events = models.CharField(max_length=1000, null=True, default=None)
+    new_features = models.CharField(max_length=1000, null=True, default=None)
+    mobile_web = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.general_information

@@ -27,7 +27,7 @@ class QuoteInLine(admin.TabularInline):
 class FAQInLine(admin.TabularInline):
     model = FrequentlyAskedQuestion
 
-class ParentsGuideInLine(admin.TabularInline):
+class ParentsGuideInLine(admin.StackedInline):
     model = ParentsGuide
 
 class VideoInLine(admin.StackedInline):
