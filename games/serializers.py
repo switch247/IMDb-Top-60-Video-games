@@ -37,9 +37,16 @@ class RatingSerializer(serializers.ModelSerializer):
                 return super().to_representation(instance)
         return None
 class WatchListSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = WatchList
-        fields = ('your_watchlist',)
+        fields = ('username', 'your_watchlist',)
+    def to_representation(self, instance):
+        if self.context['request'].user.is_authenticated:
+            user = self.context['request'].user
+            if instance.user == user:
+                return super().to_representation(instance)
+        return None
 
 class TriviaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -81,6 +88,7 @@ class GameDetailSerializer(serializers.ModelSerializer):
     certificate = ParentsGuideSerializer(many=True, read_only=True)
 class GameDetailSignedSerializer(serializers.ModelSerializer):
     videos = VideoSerializer(many=True, read_only=True)
+    watchlist = WatchListSerializer(many=True, read_only=True)
     photos = PhotoSerializer(many=True, read_only=True)
     ratings = RatingSerializer(many=True, read_only=True)
     class Meta:
@@ -107,9 +115,3 @@ class GameListSignedSerializer(serializers.ModelSerializer):
                 "watchlists",
         )
         model = VideoGame
-
-class RateSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username', read_only=True)
-    class Meta:
-        model = Rating
-        fields = '__all__'
