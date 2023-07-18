@@ -42,25 +42,11 @@ class VideoGame(models.Model):
     def get_absolute_url(self):
         return reverse("game_detail", args =[str(self.id)])
 
-class Review(models.Model):
-    game = models.ForeignKey(
-            VideoGame,
-            on_delete=models.CASCADE,
-            related_name="reviews",
-            null=True,
-            default=None,
-    )
-    user = models.ForeignKey(
-            get_user_model(),
-            on_delete=models.CASCADE,
-            null=True,
-            default=None,
-    )
-    review = models.CharField(max_length=1000, null=True, default=None)
-    def __str__(self):
-        return self.review
-
 class Rating(models.Model):
+    id = models.UUIDField(
+            primary_key=True,
+            default=uuid.uuid4,
+            editable=False)
     game = models.ForeignKey(
             VideoGame,
             on_delete=models.CASCADE,
@@ -75,11 +61,46 @@ class Rating(models.Model):
             default=None,
     )
     RATING_CHOICES = [(i, str(i)) for i in range(1, 11)]
-    your_rating = models.PositiveIntegerField(null=True, blank=True, choices=RATING_CHOICES)
+    your_rating = models.PositiveIntegerField(
+            null=True,
+            blank=True,
+            choices=RATING_CHOICES
+    )
+    class Meta:
+        unique_together = ['game', 'user']
     def __str__(self):
         return str(self.your_rating)
 
+class Review(models.Model):
+    id = models.UUIDField(
+            primary_key=True,
+            default=uuid.uuid4,
+            editable=False)
+    game = models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="reviews",
+            null=True,
+            default=None,
+    )
+    user = models.ForeignKey(
+            get_user_model(),
+            on_delete=models.CASCADE,
+            null=True,
+            default=None,
+    )
+    review = models.CharField(max_length=1000, null=True, default=None)
+    class Meta:
+        unique_together = ['game', 'user']
+    def __str__(self):
+        return self.review
+
+
 class WatchList(models.Model):
+    id = models.UUIDField(
+            primary_key=True,
+            default=uuid.uuid4,
+            editable=False)
     game = models.ForeignKey(
         VideoGame,
         on_delete=models.CASCADE,
@@ -94,7 +115,9 @@ class WatchList(models.Model):
         default=None,
     )
     your_watchlist = models.BooleanField(default=False)
-
+    
+    class Meta:
+        unique_together = ['game', 'user']
     def __str__(self):
         return f"{self.user.username} - {self.game.title} your - {self.your_watchlist} watchlist"
 

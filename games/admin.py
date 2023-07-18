@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import VideoGame, Review, Video, Photo, Trivia, Goof, Quote, FrequentlyAskedQuestion, ParentsGuide, Rating, WatchList
+from .models import VideoGame, Review, Video, Photo, Trivia, Goof, Quote, FrequentlyAskedQuestion, ParentsGuide, Rating, WatchList, Help
 
 class WatchListInLine(admin.TabularInline):
     model = WatchList
@@ -37,6 +37,7 @@ class GameAdmin(admin.ModelAdmin):
     inlines = [
             ReviewInLine, VideoInLine, ParentsGuideInLine, FAQInLine, QuoteInLine, GoofInLine, TriviaInLine, PhotoInLine, WatchListInLine, RatingInLine
     ]
-    list_display = ("title", "cover","certificate", "release_date",)
+    list_display = ("title","id", "cover","certificate", "release_date",)
 
 admin.site.register(VideoGame, GameAdmin)
+admin.site.register(Help)

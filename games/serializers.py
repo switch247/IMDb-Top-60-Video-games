@@ -1,4 +1,5 @@
 from rest_framework import serializers, permissions
+from django.contrib.auth import get_user_model
 
 from .models import VideoGame, Video, Review, Rating, WatchList, Photo, Trivia, Goof, Quote, FrequentlyAskedQuestion, ParentsGuide, Help
 
@@ -25,9 +26,16 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = ('review',)
 class RatingSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Rating
-        fields = ('your_rating',)
+        fields = ('username', 'your_rating',)
+    def to_representation(self, instance):
+        if self.context['request'].user.is_authenticated:
+            user = self.context['request'].user
+            if instance.user == user:
+                return super().to_representation(instance)
+        return None
 class WatchListSerializer(serializers.ModelSerializer):
     class Meta:
         model = WatchList
@@ -72,14 +80,15 @@ class GameDetailSerializer(serializers.ModelSerializer):
     faqs = FrequentlyAskedQuestionSerializer(many=True, read_only=True)
     certificate = ParentsGuideSerializer(many=True, read_only=True)
 class GameDetailSignedSerializer(serializers.ModelSerializer):
-    ratings = RatingSerializer(many=True, read_only=True)
     videos = VideoSerializer(many=True, read_only=True)
-    photos = PhotoSerializer
+    photos = PhotoSerializer(many=True, read_only=True)
+    ratings = RatingSerializer(many=True, read_only=True)
     class Meta:
         model = VideoGame
         fields = '__all__'
+        read_only_fields = ['title', 'cover', 'director', 'certificate', 'writer', 'award', 'storyline', 'genre', 'crazy_credits', 'soundtrack', 
+                'country_of_origin', 'language', 'company', 'box_office', 'color', 'soundmix', 'nickname', 'release_date', 'popularity', 'metascore']
     reviews = ReviewSerializer(many=True, read_only=True)
-    watchlists = WatchListSerializer(many=True, read_only=True)
     trivias = TriviaSerializer(many=True, read_only=True)
     goofs = GoofSerializer(many=True, read_only=True)
     quotes = QuoteSerializer(many=True, read_only=True)
@@ -87,8 +96,6 @@ class GameDetailSignedSerializer(serializers.ModelSerializer):
     certificate = ParentsGuideSerializer(many=True, read_only=True)
 
 class GameListSignedSerializer(serializers.ModelSerializer):
-    ratings = RatingSerializer(many=True, read_only=True)
-    watchlists = WatchListSerializer(many=True, read_only=True)
     class Meta:
         fields = (
                 "title",
@@ -101,3 +108,8 @@ class GameListSignedSerializer(serializers.ModelSerializer):
         )
         model = VideoGame
 
+class RateSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+    class Meta:
+        model = Rating
+        fields = '__all__'
