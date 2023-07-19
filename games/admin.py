@@ -86,7 +86,7 @@ class CastFaqsInLine(admin.StackedInline):
 
 class CastInLine(admin.StackedInline):
     model = Cast
-    fields = ("name",)
+    fields = ("cover", "name",)
 
 class CastAdmin(admin.ModelAdmin):
     inlines = [
