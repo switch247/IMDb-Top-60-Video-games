@@ -7,16 +7,12 @@ from django.contrib.auth import get_user_model
 
 # Create your models here.
 
-class Cast(models.Model):
-    pass
-class Relation(models.Model):
-    pass
-
 class VideoGame(models.Model):
     id = models.UUIDField(
             primary_key=True,
             default=uuid.uuid4,
-            editable=False)
+            editable=False
+    )
     imdb_rating = models.DecimalField(
         max_digits=6,
         decimal_places=2,
@@ -37,9 +33,10 @@ class VideoGame(models.Model):
     country_of_origin = models.CharField(max_length=300, default=None, null=True)
     language = models.CharField(max_length=300, default=None, null=True)
     company = models.CharField(max_length=300, default=None, null=True)
-    box_office = models.CharField(max_length=300, default=None, null=True)
+    sold = models.CharField(max_length=300, default=None, null=True)
     color = models.CharField(max_length=300, default=None, null=True)
     soundmix = models.CharField(max_length=300, default=None, null=True)
+    officialsite = models.CharField(max_length=300, default=None, null=True)
     nickname = models.CharField(max_length=300, default=None, null=True)
     release_date = models.DateField(default=None, null=True)
     popularity = models.IntegerField(default=None, null=True)
@@ -268,3 +265,144 @@ class Help(models.Model):
     mobile_web = models.CharField(max_length=1000, null=True, default=None)
     def __str__(self):
         return self.general_information
+
+class Cast(models.Model):
+    id = models.UUIDField(
+            primary_key=True,
+            default=uuid.uuid4,
+            editable=False
+    )
+    game =  models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="casts",
+            null=True,
+            default=None,
+    )
+    cover = models.ImageField(upload_to="covers/", default=None, null=True, blank=True)
+    name = models.CharField(max_length=300, default=None, null=True)
+    nickname = models.CharField(max_length=50, default=None, null=True)
+    spouses = models.CharField(max_length=300, default=None, null=True)
+    award = models.CharField(max_length=300, default=None, null=True)
+    bio = models.CharField(max_length=1000, default=None, null=True)
+    children = models.CharField(max_length=300, default=None, null=True)
+    reatives = models.CharField(max_length=300, default=None, null=True)
+    country_of_origin = models.CharField(max_length=300, default=None, null=True)
+    language = models.CharField(max_length=300, default=None, null=True)
+    parents = models.CharField(max_length=300, default=None, null=True)
+    alsoknownas  = models.CharField(max_length=300, default=None, null=True)
+    born = models.DateField(default=None, null=True)
+    starmeter = models.IntegerField(default=None, null=True)
+    Height = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=None,
+        null=True,
+        blank=True,
+    )
+
+    
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("cast_detail", args =[str(self.id)])
+
+class CastVideo(models.Model):
+    game = models.ForeignKey(
+            Cast,
+            on_delete=models.CASCADE,
+            related_name="castvideos",
+            null=True,
+            default=None,
+    )
+
+    castvideo = models.FileField(upload_to="cast/videos/", null=True, default=None)
+    def __str__(self):
+        return f"{self.game.name} videos"
+
+class CastPhoto(models.Model):
+    game = models.ForeignKey(
+            Cast,
+            on_delete=models.CASCADE,
+            related_name="castphotos",
+            null=True,
+            default=None,
+    )
+
+    castphoto = models.FileField(upload_to="cast/photos/", null=True, default=None)
+    def __str__(self):
+        return f"{self.game.name} photos"
+
+class CastTrivia(models.Model):
+    game = models.ForeignKey(
+            Cast,
+            on_delete=models.CASCADE,
+            related_name="casttrivias",
+            null=True,
+            default=None,
+    )
+    casttrivia = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.casttrivia
+
+class CastGoof(models.Model):
+    game = models.ForeignKey(
+            Cast,
+            on_delete=models.CASCADE,
+            related_name="castgoofs",
+            null=True,
+            default=None,
+    )
+    castgoof = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.castgoof
+
+class CastQuote(models.Model):
+    game = models.ForeignKey(
+            Cast,
+            on_delete=models.CASCADE,
+            related_name="castquotes",
+            null=True,
+            default=None,
+    )
+    castquote = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.castquote
+
+class CastSalary(models.Model):
+    game = models.ForeignKey(
+            Cast,
+            on_delete=models.CASCADE,
+            related_name="castsalaries",
+            null=True,
+            default=None,
+    )
+    castsalary = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.castsalary
+
+class CastTrademark(models.Model):
+    game = models.ForeignKey(
+            Cast,
+            on_delete=models.CASCADE,
+            related_name="casttrademarks",
+            null=True,
+            default=None,
+    )
+    casttrademark = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.casttrademark
+
+class CastFaqs(models.Model):
+    game = models.ForeignKey(
+            Cast,
+            on_delete=models.CASCADE,
+            related_name="castfaqs",
+            null=True,
+            default=None,
+    )
+    castfaq = models.CharField(max_length=1000, null=True, default=None)
+    def __str__(self):
+        return self.castfaq
