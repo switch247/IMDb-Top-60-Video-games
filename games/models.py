@@ -90,6 +90,7 @@ class Rating(models.Model):
     your_rating = models.PositiveIntegerField(
             null=True,
             blank=True,
+            default=None,
             choices=RATING_CHOICES
     )
     class Meta:
