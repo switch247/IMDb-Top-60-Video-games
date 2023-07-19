@@ -1,6 +1,8 @@
 import uuid
 from django.db import models
 from django.urls import reverse
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from django.contrib.auth import get_user_model
 
 # Create your models here.
@@ -32,7 +34,6 @@ class VideoGame(models.Model):
     storyline = models.CharField(max_length=1000, default=None, null=True)
     genre = models.CharField(max_length=300, default=None, null=True)
     crazy_credits = models.CharField(max_length=300, default=None, null=True)
-    soundtrack = models.CharField(max_length=300, default=None, null=True)
     country_of_origin = models.CharField(max_length=300, default=None, null=True)
     language = models.CharField(max_length=300, default=None, null=True)
     company = models.CharField(max_length=300, default=None, null=True)
@@ -98,6 +99,12 @@ class Rating(models.Model):
     def __str__(self):
         return str(self.your_rating)
 
+@receiver(post_save, sender=Rating)
+def update_game_imdb_rating(sender, instance, **kwargs):
+    instance.game.imdb_rating = instance.game.calculate_average_imdb_rating()
+    instance.game.save()
+
+
 class Review(models.Model):
     id = models.UUIDField(
             primary_key=True,
@@ -160,6 +167,18 @@ class Video(models.Model):
     video = models.FileField(upload_to="videos/", null=True, default=None)
     def __str__(self):
         return f"{self.game.title} videos"
+class SoundTrack(models.Model):
+    game = models.ForeignKey(
+            VideoGame,
+            on_delete=models.CASCADE,
+            related_name="soundtracks",
+            null=True,
+            default=None,
+    )
+
+    soundtracks = models.FileField(upload_to="soundtracks/", null=True, default=None)
+    def __str__(self):
+        return f"{self.game.title} soundtracks"
 
 class Photo(models.Model):
     game = models.ForeignKey(

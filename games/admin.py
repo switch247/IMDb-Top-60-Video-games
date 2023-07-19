@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import VideoGame, Review, Video, Photo, Trivia, Goof, Quote, FrequentlyAskedQuestion, ParentsGuide, Rating, WatchList, Help
+from .models import VideoGame, Review, Video, Photo, Trivia, Goof, Quote, FrequentlyAskedQuestion, ParentsGuide, Rating, WatchList, Help, SoundTrack
 
 class WatchListInLine(admin.TabularInline):
     model = WatchList
@@ -33,9 +33,13 @@ class ParentsGuideInLine(admin.StackedInline):
 class VideoInLine(admin.StackedInline):
     model = Video
 
+class SoundTrackInLine(admin.StackedInline):
+    model = SoundTrack
+
+
 class GameAdmin(admin.ModelAdmin):
     inlines = [
-            ReviewInLine, VideoInLine, ParentsGuideInLine, FAQInLine, QuoteInLine, GoofInLine, TriviaInLine, PhotoInLine, WatchListInLine, RatingInLine
+            ReviewInLine, VideoInLine, ParentsGuideInLine, FAQInLine, QuoteInLine, GoofInLine, TriviaInLine, PhotoInLine, WatchListInLine, RatingInLine, SoundTrackInLine
     ]
     list_display = ("title","id", "cover","certificate", "release_date", "imdb_rating",)
 

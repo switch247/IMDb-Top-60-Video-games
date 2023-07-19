@@ -7,9 +7,10 @@ from .models import VideoGame, Help, Rating, WatchList, Review
 from .serializers import GameListSerializer, GameDetailSerializer, HelpListSerializer, GameDetailSignedSerializer, GameListSignedSerializer, RatingSerializer, ReviewSerializer, WatchListSerializer
 
 # Create your views here.
-
 class GameList(generics.ListAPIView):
-    queryset = VideoGame.objects.all()
+    def get_queryset(self):
+        queryset = VideoGame.objects.all().order_by('-imdb_rating')
+        return queryset
     
     def get_serializer_class(self):
         if self.request.user.is_authenticated:
