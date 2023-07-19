@@ -25,13 +25,13 @@ class GameDetail(generics.RetrieveAPIView):
         else:
             return GameDetailSerializer
 
-class GameRate(generics.RetrieveUpdateAPIView):
+class GameRate(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        game_id = self.kwargs['game_id']
+        game_id = self.kwargs['videogame_id']
         user = self.request.user
         try:
             rating = Rating.objects.get(game_id=game_id, user=user)
@@ -44,13 +44,13 @@ class GameRate(generics.RetrieveUpdateAPIView):
         rating = self.get_object()
         rating.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-class GameWatchList(generics.RetrieveUpdateAPIView):
+class GameWatchList(generics.RetrieveUpdateDestroyAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        game_id = self.kwargs['game_id']
+        game_id = self.kwargs['videogame_id']
         user = self.request.user
 
         try:
@@ -61,13 +61,13 @@ class GameWatchList(generics.RetrieveUpdateAPIView):
 
         return watchlist
 
-class GameReview(generics.RetrieveUpdateAPIView):
+class GameReview(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        game_id = self.kwargs['game_id']
+        game_id = self.kwargs['videogame_id']
         user = self.request.user
 
         try:
