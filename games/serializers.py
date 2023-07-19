@@ -22,9 +22,10 @@ class PhotoSerializer(serializers.ModelSerializer):
         model = Photo
         fields = ('photo',)
 class ReviewSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Review
-        fields = ('review',)
+        fields = ('username', 'review',)
 class RatingSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
     class Meta:
@@ -88,14 +89,12 @@ class GameDetailSerializer(serializers.ModelSerializer):
     certificate = ParentsGuideSerializer(many=True, read_only=True)
 class GameDetailSignedSerializer(serializers.ModelSerializer):
     videos = VideoSerializer(many=True, read_only=True)
-    watchlist = WatchListSerializer(many=True, read_only=True)
     photos = PhotoSerializer(many=True, read_only=True)
     ratings = RatingSerializer(many=True, read_only=True)
+    watchlists = WatchListSerializer(many=True, read_only=True)
     class Meta:
         model = VideoGame
         fields = '__all__'
-        read_only_fields = ['title', 'cover', 'director', 'certificate', 'writer', 'award', 'storyline', 'genre', 'crazy_credits', 'soundtrack', 
-                'country_of_origin', 'language', 'company', 'box_office', 'color', 'soundmix', 'nickname', 'release_date', 'popularity', 'metascore']
     reviews = ReviewSerializer(many=True, read_only=True)
     trivias = TriviaSerializer(many=True, read_only=True)
     goofs = GoofSerializer(many=True, read_only=True)
@@ -104,6 +103,8 @@ class GameDetailSignedSerializer(serializers.ModelSerializer):
     certificate = ParentsGuideSerializer(many=True, read_only=True)
 
 class GameListSignedSerializer(serializers.ModelSerializer):
+    ratings = RatingSerializer(many=True, read_only=True)
+    watchlists = WatchListSerializer(many=True, read_only=True)
     class Meta:
         fields = (
                 "title",

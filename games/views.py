@@ -24,6 +24,7 @@ class GameDetail(generics.RetrieveAPIView):
             return GameDetailSignedSerializer
         else:
             return GameDetailSerializer
+
 class GameRate(generics.RetrieveUpdateAPIView):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
