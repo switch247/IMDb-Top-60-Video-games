@@ -1,7 +1,29 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import VideoGame, Review, Video, Photo, Trivia, Goof, Quote, FrequentlyAskedQuestion, ParentsGuide, Rating, WatchList, Help, SoundTrack, Cast, CastVideo, CastPhoto 
+from .models import (VideoGame, 
+        Review, 
+        Video, 
+        Photo, 
+        Trivia, 
+        Goof, 
+        Quote, 
+        FrequentlyAskedQuestion, 
+        ParentsGuide, 
+        Rating, 
+        WatchList, 
+        Help, 
+        SoundTrack, 
+        Cast, 
+        CastVideo, 
+        CastPhoto,
+        CastTrivia,
+        CastGoof,
+        CastQuote,
+        CastSalary,
+        CastTrademark,
+        CastFaqs,
+)
 
 class WatchListInLine(admin.TabularInline):
     model = WatchList
@@ -42,29 +64,38 @@ class CastPhotoInLine(admin.StackedInline):
 class CastVideoInLine(admin.StackedInline):
     model = CastVideo
 
-CastParentsGuideInLine
+class CastTriviaInLine(admin.StackedInline):
+    model = CastTrivia
 
-CastTriviaInLine
+class CastGoofInLine(admin.StackedInline):
+    model = CastGoof
 
-CastGoofInLine
+class CastQuoteInLine(admin.StackedInline):
+    model = CastQuote
 
-CastQuoteInLine
 
-CastFaqInLine
+class CastSalaryInLine(admin.StackedInline):
+    model = CastSalary 
+
+class CastTrademarkInLine(admin.StackedInline):
+    model = CastTrademark
+
+class CastFaqsInLine(admin.StackedInline):
+    model = CastFaqs
 
 
 class CastInLine(admin.StackedInline):
     model = Cast
+    fields = ("name",)
 
 class CastAdmin(admin.ModelAdmin):
-        inlines = [
+    inlines = [
             CastVideoInLine,
             CastPhotoInLine,
-            CastParentsGuideInLine,
             CastTriviaInLine,
             CastGoofInLine,
             CastQuoteInLine,
-            CastFaqInLine,
+            CastFaqsInLine,
     ]
     list_display = ("name", "id", "cover", "born","game",)
 
