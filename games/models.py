@@ -15,6 +15,14 @@ class VideoGame(models.Model):
             primary_key=True,
             default=uuid.uuid4,
             editable=False)
+    imdb_rating = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=None,
+        null=True,
+        blank=True,
+        editable=False 
+    )
     cover = models.ImageField(upload_to="covers/", default=None, null=True, blank=True)
     title = models.CharField(max_length=300, default=None, null=True)
     director = models.CharField(max_length=300, default=None, null=True)
@@ -33,9 +41,23 @@ class VideoGame(models.Model):
     soundmix = models.CharField(max_length=300, default=None, null=True)
     nickname = models.CharField(max_length=300, default=None, null=True)
     release_date = models.DateField(default=None, null=True)
-    imdb_rating = models.DecimalField(max_digits=6, decimal_places=2, default=None, null=True)
     popularity = models.IntegerField(default=None, null=True)
     metascore = models.PositiveIntegerField(default=None, null=True)
+    
+    def calculate_average_imdb_rating(self):
+        ratings = self.ratings.all()
+        total_ratings = len(ratings)
+        if total_ratings == 0:
+            return None
+
+        total_imdb_rating = sum([rating.your_rating for rating in ratings if rating.your_rating is not None])
+        average_imdb_rating = total_imdb_rating / total_ratings
+        return average_imdb_rating
+
+    def save(self, *args, **kwargs):
+        self.imdb_rating = self.calculate_average_imdb_rating()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
