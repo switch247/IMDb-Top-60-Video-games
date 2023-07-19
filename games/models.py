@@ -45,14 +45,18 @@ class VideoGame(models.Model):
     metascore = models.PositiveIntegerField(default=None, null=True)
     
     def calculate_average_imdb_rating(self):
-        ratings = self.ratings.all()
-        total_ratings = len(ratings)
-        if total_ratings == 0:
-            return None
+        # Check if the instance is already saved (has a primary key).
+        if self.pk:
+            ratings = self.ratings.all()
+            total_ratings = len(ratings)
+            if total_ratings == 0:
+                return 0  # Return 0 as the default IMDb rating when there are no ratings.
 
-        total_imdb_rating = sum([rating.your_rating for rating in ratings if rating.your_rating is not None])
-        average_imdb_rating = total_imdb_rating / total_ratings
-        return average_imdb_rating
+            total_imdb_rating = sum([rating.your_rating for rating in ratings if rating.your_rating is not None])
+            average_imdb_rating = total_imdb_rating / total_ratings
+            return average_imdb_rating
+        else:
+            return None  # Return None for new instances without a primary key.
 
     def save(self, *args, **kwargs):
         self.imdb_rating = self.calculate_average_imdb_rating()
