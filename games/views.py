@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 from rest_framework import generics, permissions
 from rest_framework.permissions import IsAuthenticated
 
@@ -86,3 +87,26 @@ class GameReview(generics.RetrieveUpdateDestroyAPIView):
 class HelpList(generics.ListCreateAPIView):
     queryset = Help.objects.all()
     serializer_class = HelpListSerializer
+
+class SearchResultsListView(generics.ListAPIView):
+
+    def get_queryset(self):
+        queryset = VideoGame.objects.all()
+        title = self.request.query_params.get('title', None)
+        writer = self.request.query_params.get('writer', None)
+        director = self.request.query_params.get('director', None)
+
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+        if writer:
+            queryset = queryset.filter(writer__icontains=writer)
+        if director:
+            queryset = queryset.filter(director__icontains=director)
+
+        return queryset
+
+    def get_serializer_class(self):
+        if self.request.user.is_authenticated:
+            return GameListSignedSerializer
+        else:
+            return GameListSerializer
