@@ -99,9 +99,15 @@ TEMPLATES = [
     },
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+DEFAULT_FROM_EMAIL = "ezrayeneneh2000@gmail.com"
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_HOST_USER = "apikey"
+EMAIL_HOST_PASSWORD = "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"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 SITE_ID = 1
+
 WSGI_APPLICATION = "imdb_project.wsgi.application"
 
 
