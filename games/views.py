@@ -145,3 +145,9 @@ class CastDetail(generics.RetrieveAPIView):
     queryset = Cast.objects.all() 
     serializer_class = CastDetailSerializer
     lookup_field = 'id'
+
+class About(generics.ListAPIView):
+    pass
+
+class Contact(generics.ListAPIView):
+    pass
