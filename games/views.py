@@ -3,8 +3,26 @@ from django.db.models import Q
 from rest_framework import generics, permissions
 from rest_framework.permissions import IsAuthenticated
 
-from .models import VideoGame, Help, Rating, WatchList, Review
-from .serializers import GameListSerializer, GameDetailSerializer, HelpListSerializer, GameDetailSignedSerializer, GameListSignedSerializer, RatingSerializer, ReviewSerializer, WatchListSerializer
+from .models import (
+        VideoGame,
+        Help,
+        Rating,
+        WatchList,
+        Review,
+        Cast,
+)
+from .serializers import (
+        GameListSerializer,
+        GameDetailSerializer,
+        HelpListSerializer,
+        GameDetailSignedSerializer,
+        GameListSignedSerializer,
+        RatingSerializer,
+        ReviewSerializer,
+        WatchListSerializer,
+        CastSerializer,
+        CastDetailSerializer,
+)
 
 # Create your views here.
 class GameList(generics.ListAPIView):
@@ -42,10 +60,12 @@ class GameRate(generics.RetrieveUpdateDestroyAPIView):
             rating = Rating.objects.create(game=game, user=user)
 
         return rating
+
     def delete(self, request, *args, **kwargs):
         rating = self.get_object()
         rating.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 class GameWatchList(generics.RetrieveUpdateDestroyAPIView):
     queryset = WatchList.objects.all()
     serializer_class = WatchListSerializer
@@ -90,7 +110,6 @@ class HelpList(generics.ListCreateAPIView):
     serializer_class = HelpListSerializer
 
 class SearchResultsListView(generics.ListAPIView):
-
     def get_queryset(self):
         queryset = VideoGame.objects.all()
         title = self.request.query_params.get('title', None)
@@ -111,3 +130,18 @@ class SearchResultsListView(generics.ListAPIView):
             return GameListSignedSerializer
         else:
             return GameListSerializer
+
+class CastList(generics.ListAPIView):
+    serializer_class = CastSerializer
+
+    def get_queryset(self):
+        # Get the VideoGame object based on the video game id captured from the URL
+        video_game_id = self.kwargs['videogame_id']
+        video_game = VideoGame.objects.get(id=video_game_id)
+
+        return Cast.objects.filter(game=video_game)
+
+class CastDetail(generics.RetrieveAPIView):
+    queryset = Cast.objects.all() 
+    serializer_class = CastDetailSerializer
+    lookup_field = 'id'

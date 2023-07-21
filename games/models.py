@@ -61,7 +61,7 @@ class VideoGame(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
     def get_absolute_url(self):
         return reverse("game_detail", args =[str(self.id)])
@@ -304,7 +304,7 @@ class Cast(models.Model):
     
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
     def get_absolute_url(self):
         return reverse("cast_detail", args =[str(self.id)])
