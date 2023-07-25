@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from django.urls import reverse
+import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -105,7 +107,7 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 DEFAULT_FROM_EMAIL = "ezrayeneneh2000@gmail.com"
 EMAIL_HOST = "smtp.sendgrid.net"
 EMAIL_HOST_USER = "apikey"
-EMAIL_HOST_PASSWORD = "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"
+EMAIL_HOST_PASSWORD = "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"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 SITE_ID = 1
@@ -116,18 +118,19 @@ WSGI_APPLICATION = "imdb_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+#DATABASES = {
+#    "default": {
+#        "ENGINE": "django.db.backends.postgresql",
+#        "NAME": "postgres",
+#        "USER": "postgres",
+#        "PASSWORD": "imdb@12345",
+#        "HOST": "db",
+#        "PORT": 5432,
+#    }
+#}
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": "imdb@12345",
-        "HOST": "db",
-        "PORT": 5432,
-    }
-}
-
-
+        "default": dj_database_url.parse("postgres://imdbgames_user:4d5HJyuSj5tzayyM5EqnSCVi1BRIgMvV@dpg-civs6q6nqql48o2gd1cg-a.ohio-postgres.render.com/imdbgames")
+        }
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
